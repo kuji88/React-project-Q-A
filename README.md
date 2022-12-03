@@ -4,6 +4,6 @@
 <h4>Requirements</h4>
 <ul>
   <li>Reactjs</li>
-  <li>Bbootstrap</li>
+  <li>Bootstrap</li>
 
 </ul>
