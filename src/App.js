@@ -13,6 +13,11 @@ function App() {
       
     }
 
+    const deleteAll=() =>{
+      Data.splice(0,Data.length)
+      setData([])
+    }
+
   return (
     <div className='font'>
     <Container>
@@ -24,7 +29,7 @@ function App() {
           <Qinputs onAdd={changeData}/>
 
           <Qlist lData={Data}/>
-          {sData.length >=1 ?  <Button variant='danger' className='my-3 w-100'>Delete All</Button>:null}
+          {sData.length >=1 ?  <Button onClick={deleteAll} variant='danger' className='my-3 w-100'>Delete All</Button>:null}
         </Col>
 
       </Row>
