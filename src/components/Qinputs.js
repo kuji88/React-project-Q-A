@@ -3,11 +3,16 @@ import { Col, Row,Form,InputGroup,Button } from 'react-bootstrap'
 import { Data } from '../Data'
 
 
-const Qinputs = ({onAdd}) => {
+const Qinputs = ({onAdd, noti}) => {
   const [aQ,setaQ] = useState('')
   const [aA,setaA] = useState('')
 
   const addNewitem=()=>{
+    if(aQ === "" || aA === ""){
+      return(
+        noti("Please fill the bars","Error")
+      )
+    }
     Data.push({id:Math.random(), q:aQ ,a:aA})
     setaA('')
     setaQ('')

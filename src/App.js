@@ -4,19 +4,43 @@ import Qinputs from './components/Qinputs';
 import Qlist from './components/Qlist';
 import { Data } from './Data';
 import { useState } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
     const [sData,setData]= useState(Data)
 
     const changeData=()=>{
+      localStorage.setItem("items",JSON.stringify([...Data]))
       setData([...Data])
+      notify("Question added","info")
       
     }
 
     const deleteAll=() =>{
+      localStorage.removeItem("items")
       Data.splice(0,Data.length)
       setData([])
+      notify("Questions deleted","Error")
     }
+
+    const deleteOneitem=(items) =>{
+      localStorage.setItem("items",JSON.stringify([...items]))
+      setData([...items])
+      if(items.length <= 0){
+        deleteAll()
+      }
+      notify("Question deleted","info")
+    }
+    const notify = (message,type) => {
+      if(type==="info"){
+        toast.info(message)
+      }
+      if(type==="Error"){
+        toast.error(message)
+      }
+    };
+
 
   return (
     <div className='font'>
@@ -26,14 +50,27 @@ function App() {
           <h2>The Questions</h2>
         </Col>
         <Col sm="9">
-          <Qinputs onAdd={changeData}/>
+          <Qinputs noti={notify} onAdd={changeData}/>
 
-          <Qlist lData={Data}/>
-          {sData.length >=1 ?  <Button onClick={deleteAll} variant='danger' className='my-3 w-100'>Delete All</Button>:null}
+          <Qlist deleteOne={deleteOneitem} lData={Data}/>
+          {localStorage.getItem("items") != null ?  <Button onClick={deleteAll} variant='danger' className='my-3 w-100'>Delete All</Button>:null}
         </Col>
 
       </Row>
+      <ToastContainer
+position="bottom-right"
+autoClose={5000}
+hideProgressBar
+newestOnTop={false}
+closeOnClick
+rtl={false}
+pauseOnFocusLoss
+draggable
+pauseOnHover
+theme="light"
+/>
       </Container>
+      
     </div>
   );
 }
